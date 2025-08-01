@@ -11,6 +11,7 @@ with engine.connect() as conn:
 
 app = dash.Dash(__name__)
 app.title = "New Grad Job Dashboard"
+app.config.suppress_callback_exceptions = True
 
 def load_data():
     with engine.connect() as conn:
@@ -205,4 +206,9 @@ def update_dashboard(company, location, page_btn_clicks, jump_n_clicks, current_
     return table, buttons, figure, page, None
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 8050))
+    print(f"Starting dashboard on port {port}")
+    print(f"Debug mode: False")
+    print(f"Host: 0.0.0.0")
+    app.run(debug=False, host="0.0.0.0", port=port)
